@@ -20,10 +20,6 @@ class CreateUserService {
   ) { }
 
   public async execute({ name, email, password }: IRequest): Promise<User> {
-    if (!name || !email || !password) {
-      throw new AppError('Incomplete data');
-    }
-
     const checkUserExists = await this.usersRepository.findByEmail(email);
 
     if (checkUserExists) {
