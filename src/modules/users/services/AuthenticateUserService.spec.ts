@@ -34,30 +34,43 @@ describe('AuthenticateUser', () => {
     expect(response.user).toEqual(user);
   });
 
-  // it('should not be able to authenticate', async () => {
-  //   const fakeUsersRepository = new FakeUsersRepository();
-  //   const fakeHashProvider = new FakeHashProvider();
+  it('should not be able to authenticate with non existing user', async () => {
+    const fakeUsersRepository = new FakeUsersRepository();
+    const fakeHashProvider = new FakeHashProvider();
 
-  //   const createUser = new CreateUserService(
-  //     fakeUsersRepository,
-  //     fakeHashProvider,
-  //   );
-  //   const authenticateUser = new AuthenticateUserService(
-  //     fakeUsersRepository,
-  //     fakeHashProvider,
-  //   );
+    const authenticateUser = new AuthenticateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
 
-  //   await createUser.execute({
-  //     name: 'John Doe',
-  //     email: 'johndoe@example.com',
-  //     password: '123456',
-  //   });
+    expect(authenticateUser.execute({
+      email: 'johndoe@example.com',
+      password: '123456',
+    })).rejects.toBeInstanceOf(AppError);
+  });
 
-  //   const response = await authenticateUser.execute({
-  //     email: 'johndoe@example.com',
-  //     password: '123456',
-  //   });
+  it('should not be able to authenticate with worng password', async () => {
+    const fakeUsersRepository = new FakeUsersRepository();
+    const fakeHashProvider = new FakeHashProvider();
 
-  //   expect(response).toHaveProperty('token');
-  // });
+    const createUser = new CreateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+    const authenticateUser = new AuthenticateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+
+    await createUser.execute({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '123456',
+    });
+
+    expect(authenticateUser.execute({
+      email: 'johndoe@example.com',
+      password: '123455',
+    })).rejects.toBeInstanceOf(AppError);
+  });
 });
