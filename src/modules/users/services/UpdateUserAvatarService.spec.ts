@@ -35,7 +35,7 @@ describe('UpdateUserAvatar', () => {
       fakeStorageProvider,
     );
 
-    expect(updateUserAvatar.execute({
+    await expect(updateUserAvatar.execute({
       user_id: 'non-exisiting-user',
       avatarFilename: 'photo.jpg',
     })).rejects.toBeInstanceOf(AppError);
