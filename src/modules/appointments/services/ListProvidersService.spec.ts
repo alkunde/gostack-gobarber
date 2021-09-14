@@ -36,6 +36,6 @@ describe('ListProviders', () => {
       user_id: loggedUser.id
     });
 
-    expect(providers).toStrictEqual([user1, user2]);
+    expect(providers).toEqual([user1, user2]);
   });
 });
