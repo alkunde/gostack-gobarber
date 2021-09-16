@@ -7,6 +7,7 @@ let listProviderMonthAvailability: ListProviderMonthAvailabilityService;
 describe('ListProviderMonthAvailability', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
+
     listProviderMonthAvailability = new ListProviderMonthAvailabilityService(
       fakeAppointmentsRepository,
     );
